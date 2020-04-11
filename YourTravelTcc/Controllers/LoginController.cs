@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using YourTravelTcc.Models;
+using YourTravelTcc.Models.Context;
 
 namespace YourTravelTcc.Controllers
 {
@@ -16,9 +18,12 @@ namespace YourTravelTcc.Controllers
     {
         private readonly ILogger<LoginController> _logger;
 
-        public LoginController( ILogger<LoginController> logger )
+        private readonly PersonContext _personContext;
+
+        public LoginController( ILogger<LoginController> logger, PersonContext travelerContext )
         {
-            _logger = logger;
+            this._logger = logger;
+            this._personContext = travelerContext;
         }
 
         [HttpPost]
@@ -26,7 +31,16 @@ namespace YourTravelTcc.Controllers
         {
             if(ModelState.IsValid)
             {
-                return Ok();
+                try
+                {
+                    var login = this._personContext.Person.Single(p => p.Email.Equals(person.Email) && p.Password.Equals(person.Password));
+
+                    return Ok();
+                }
+                catch( InvalidOperationException )
+                {
+                    return BadRequest();
+                }
             }
 
             return BadRequest();

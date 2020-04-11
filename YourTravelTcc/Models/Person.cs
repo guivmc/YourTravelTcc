@@ -11,7 +11,7 @@ namespace YourTravelTcc.Models
     /// </summary>
     public class Person
     {
-        public long ID { get; set; }
+        public int ID { get; set; }
         public String FirstName { get; set; }
         public String SurName { get; set; }
         public CountryID CountryID { get; set; }

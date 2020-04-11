@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using YourTravelTcc.Models.Context;
 
 namespace YourTravelTcc
 {
@@ -23,7 +25,15 @@ namespace YourTravelTcc
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices( IServiceCollection services )
         {
+            var connection = Configuration["ConnectionSqlite:SqliteConnectionString"];
+
+            services.AddDbContext<TravelerContext>( options => options.UseSqlite( connection ));
+            services.AddDbContext<PersonContext>( options => options.UseSqlite( connection ) );
+
             services.AddControllersWithViews();
+
+            // Add framework services.
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
