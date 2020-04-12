@@ -27,8 +27,9 @@ namespace YourTravelTcc
         {
             var connection = Configuration["ConnectionSqlite:SqliteConnectionString"];
 
-            services.AddDbContext<TravelerContext>( options => options.UseSqlite( connection ));
+            services.AddDbContext<TravelerContext>( options => options.UseSqlite( connection ) );
             services.AddDbContext<PersonContext>( options => options.UseSqlite( connection ) );
+            services.AddDbContext<GuideContext>( options => options.UseSqlite( connection ) );
 
             services.AddControllersWithViews();
 

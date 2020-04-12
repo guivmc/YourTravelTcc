@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Logging;
 using YourTravelTcc.Models;
 using YourTravelTcc.Models.Context;
@@ -20,27 +21,44 @@ namespace YourTravelTcc.Controllers
 
         private readonly PersonContext _personContext;
 
-        public LoginController( ILogger<LoginController> logger, PersonContext travelerContext )
+        private readonly TravelerContext _travelerContext;
+
+        private readonly GuideContext _guideContext;
+
+        public LoginController( ILogger<LoginController> logger, PersonContext personContext, TravelerContext travelerContext, GuideContext guideContext)
         {
             this._logger = logger;
-            this._personContext = travelerContext;
+            this._personContext = personContext;
+            this._travelerContext = travelerContext;
+            this._guideContext = guideContext;
         }
 
         [HttpPost]
-        public IActionResult Login(Person person)
+        public IActionResult Login( Person person )
         {
-            if(ModelState.IsValid)
+            if( ModelState.IsValid )
             {
-                try
-                {
-                    var login = this._personContext.Person.Single(p => p.Email.Equals(person.Email) && p.Password.Equals(person.Password));
+                //try
+                //{
+                    var login = this._personContext.Person.Single( p => p.Email.Equals( person.Email ) && p.Password.Equals( person.Password ) );
 
-                    return Ok();
-                }
-                catch( InvalidOperationException )
-                {
+                    var guide = this._guideContext.Guide.SingleOrDefault( g => g.ID.Equals( login.ID) );
+
+                    if( guide != null )
+                        return RedirectToAction();
+
+                    var traveler = this._travelerContext.Traveler.SingleOrDefault( t => t.ID.Equals( login.ID ) );
+
+                    if( traveler != null )
+                        return RedirectToAction();
+
+
                     return BadRequest();
-                }
+                //}
+                //catch( InvalidOperationException )
+                //{
+                //    return BadRequest();
+                //}
             }
 
             return BadRequest();
@@ -60,7 +78,7 @@ namespace YourTravelTcc.Controllers
         }
 
         [HttpPost]
-        public IActionResult SingUpAsTraveler(Traveler traveler)
+        public IActionResult SingUpAsTraveler( Traveler traveler )
         {
             if( ModelState.IsValid )
             {
@@ -77,7 +95,7 @@ namespace YourTravelTcc.Controllers
         }
 
         [HttpPost]
-        public IActionResult SingUpAsGuide(Guide guide)
+        public IActionResult SingUpAsGuide( Guide guide )
         {
             if( ModelState.IsValid )
             {

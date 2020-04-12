@@ -1,18 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace YourTravelTcc.Models
 {
     /// <summary>
-    /// Guide model.
+    /// Guide model, inharetes from person.
     /// A guide is the user that will sell its services on the platform.
+    /// Person iharetece o attribute personData
     /// </summary>
-    public class Guide : Person
+    public class Guide 
     {
+        [Key]
+        [ForeignKey("ID")]
+        public int ID { get; set; }
         public int? CompanyID { get; set; }
-        public float Rating { get; set; }
+        public double Rating { get; set; }
         public bool Available { get; set; }
+
+        [NotMapped]
+        public Person personData { get; set; } 
+
     }
 }
