@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace YourTravelTcc.Models
 {
     /// <summary>
-    /// Guide model, inharetes from person.
+    /// Guide model, inherites from person.
     /// A guide is the user that will sell its services on the platform.
-    /// Person iharetece o attribute personData
+    /// Person iharitance o attribute personData
     /// </summary>
     public class Guide 
     {

@@ -6,9 +6,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.AspNetCore.Session;
 using Microsoft.Extensions.Logging;
 using YourTravelTcc.Models;
 using YourTravelTcc.Models.Context;
+using Microsoft.AspNetCore.Http;
+using YourTravelTcc.Utils;
 
 namespace YourTravelTcc.Controllers
 {
@@ -25,7 +28,7 @@ namespace YourTravelTcc.Controllers
 
         private readonly GuideContext _guideContext;
 
-        public LoginController( ILogger<LoginController> logger, PersonContext personContext, TravelerContext travelerContext, GuideContext guideContext)
+        public LoginController( ILogger<LoginController> logger, PersonContext personContext, TravelerContext travelerContext, GuideContext guideContext )
         {
             this._logger = logger;
             this._personContext = personContext;
@@ -38,27 +41,30 @@ namespace YourTravelTcc.Controllers
         {
             if( ModelState.IsValid )
             {
-                //try
-                //{
+                try
+                {
                     var login = this._personContext.Person.Single( p => p.Email.Equals( person.Email ) && p.Password.Equals( person.Password ) );
 
-                    var guide = this._guideContext.Guide.SingleOrDefault( g => g.ID.Equals( login.ID) );
+                    var guide = this._guideContext.Guide.SingleOrDefault( g => g.ID.Equals( login.ID ) );
 
                     if( guide != null )
-                        return RedirectToAction();
+                        return RedirectToAction( "Index", "Guide" );
 
                     var traveler = this._travelerContext.Traveler.SingleOrDefault( t => t.ID.Equals( login.ID ) );
 
                     if( traveler != null )
-                        return RedirectToAction();
+                    {
+                        HttpContext.Session.SetObject( "ComplexObject", traveler );
+                        return RedirectToAction( "Index", "Traveler" );
+                    }
 
 
                     return BadRequest();
-                //}
-                //catch( InvalidOperationException )
-                //{
-                //    return BadRequest();
-                //}
+                }
+                catch( InvalidOperationException )
+                {
+                    return BadRequest();
+                }
             }
 
             return BadRequest();
