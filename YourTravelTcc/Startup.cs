@@ -27,11 +27,16 @@ namespace YourTravelTcc
         {
             var connection = Configuration["ConnectionSqlite:SqliteConnectionString"];
 
+            //Adding table contexts.
             services.AddDbContext<TravelerContext>( options => options.UseSqlite( connection ) );
             services.AddDbContext<PersonContext>( options => options.UseSqlite( connection ) );
             services.AddDbContext<GuideContext>( options => options.UseSqlite( connection ) );
 
             services.AddControllersWithViews();
+
+            services.AddSession( options => {
+                options.IdleTimeout = TimeSpan.FromMinutes( 1 );
+            } );
 
             // Add framework services.
             services.AddMvc();
@@ -56,6 +61,8 @@ namespace YourTravelTcc
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints( endpoints =>
              {

@@ -77,12 +77,12 @@ namespace YourTravelTcc.Controllers
 
 
                     return BadRequest();
-                }
-                catch( InvalidOperationException )
-                {
-                    return BadRequest();
-                }
             }
+                catch( InvalidOperationException )
+            {
+                return BadRequest();
+            }
+        }
 
             return BadRequest();
         }
