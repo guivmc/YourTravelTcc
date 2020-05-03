@@ -16,7 +16,7 @@ namespace YourTravelTcc.Models
     {
         [Key]
         [ForeignKey( "ID" )]
-        public int ID { get; set; }
+        public int? ID { get; set; }
 
         [NotMapped]
         public Person personData { get; set; }

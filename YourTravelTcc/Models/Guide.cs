@@ -6,7 +6,7 @@ namespace YourTravelTcc.Models
     /// <summary>
     /// Guide model, inherites from person.
     /// A guide is the user that will sell its services on the platform.
-    /// Person iharitance o attribute personData
+    /// Person iharitance o attribute personData.
     /// </summary>
     public class Guide 
     {
