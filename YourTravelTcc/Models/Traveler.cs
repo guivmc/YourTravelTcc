@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 namespace YourTravelTcc.Models
 {
     /// <summary>
-    /// Traveler model, inharetes from person.
+    /// Traveler model, inherites from person.
     /// A traveler is the user that will search for options to customize its trip.
-    /// Person iharetece o attribute personData
+    /// Person iharitance o attribute personData
     /// </summary>
     public class Traveler
     {
         [Key]
         [ForeignKey( "ID" )]
-        public int ID { get; set; }
+        public int? ID { get; set; }
 
         [NotMapped]
         public Person personData { get; set; }
