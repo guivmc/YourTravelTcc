@@ -31,10 +31,6 @@ namespace YourTravelTcc.Controllers
         /// <summary>
         /// Default contructor.
         /// </summary>
-        /// <param name="logger"></param>
-        /// <param name="personContext"></param>
-        /// <param name="travelerContext"></param>
-        /// <param name="guideContext"></param>
         public LoginController( ILogger<LoginController> logger, PersonContext personContext, TravelerContext travelerContext, GuideContext guideContext )
         {
             this._logger = logger;

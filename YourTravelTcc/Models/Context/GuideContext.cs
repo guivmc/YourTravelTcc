@@ -7,6 +7,7 @@ namespace YourTravelTcc.Models.Context
     {
         //Table name
         public DbSet<Guide> Guide { get; set; }
+        public DbSet<Person> Person { get; set; }
 
         public GuideContext( DbContextOptions<GuideContext> options ) : base( options )
         {
@@ -17,7 +18,5 @@ namespace YourTravelTcc.Models.Context
             builder.Entity<Guide>().HasKey( m => m.ID );
             base.OnModelCreating( builder );
         }
-
-
     }
 }

@@ -15,6 +15,7 @@ namespace YourTravelTcc.Models.Context
 
         //Table name
         public DbSet<Traveler> Traveler { get; set; }
+        public DbSet<Person> Person { get; set; }
 
         protected override void OnModelCreating( ModelBuilder builder )
         {
