@@ -1,0 +1,58 @@
+﻿@model YourTravelTcc.Models.Guide
+
+@{
+    ViewData["Title"] = "SignUpAsGuide";
+    Layout = "_SignUpLayout";
+}
+
+<h4>Create yout Guide account</h4>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="SignUpAsGuide" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="CompanyID" class="control-label"></label>
+                <input asp-for="CompanyID" class="form-control" type="number"/>
+                <span asp-validation-for="CompanyID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="personData.FirstName" class="control-label"></label>
+                <input asp-for="personData.FirstName" class="form-control" type="text" required/>
+                <span asp-validation-for="personData.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="personData.SurName" class="control-label"></label>
+                <input asp-for="personData.SurName" class="form-control" type="text" required/>
+                <span asp-validation-for="personData.SurName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="personData.CountryID" class="control-label"></label>
+                <input asp-for="personData.CountryID" class="form-control" type="number" required/>
+                <span asp-validation-for="personData.CountryID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="personData.PhoneNumber" class="control-label"></label>
+                <input asp-for="personData.PhoneNumber" class="form-control" type="text" required/>
+                <span asp-validation-for="personData.PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="personData.Email" class="control-label"></label>
+                <input asp-for="personData.Email" class="form-control" type="email" required/>
+                <span asp-validation-for="personData.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="personData.Password" class="control-label"></label>
+                <input asp-for="personData.Password" class="form-control" type="password" required/>
+                <span asp-validation-for="personData.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Sing Up" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+

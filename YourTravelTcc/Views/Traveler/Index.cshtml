@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_TravelerLayout";
+}
+
+<h1>Index</h1>
+
+<form action="Traveler/SearchForGuidesInLocation" method="post">
+    <input type="text" name="location" placeholder="For my next trip I want to go to..."/>
+    <input  type="submit" value="Search"/>
+</form>
+
