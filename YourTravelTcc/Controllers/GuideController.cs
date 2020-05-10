@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using YourTravelTcc.Models;
 
 namespace YourTravelTcc.Controllers
 {
@@ -13,7 +14,14 @@ namespace YourTravelTcc.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            var message1 = new Message() { Text = "Mensagem test 1." };
+            var message2 = new Message() { Text = "Mensagem test 2." };
+
+            var messages = new List<Message>();
+            messages.Add( message1 );
+            messages.Add( message2 );
+
+            return View(messages);
         }
     }
 }
