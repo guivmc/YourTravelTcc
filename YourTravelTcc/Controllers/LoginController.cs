@@ -168,11 +168,11 @@ namespace YourTravelTcc.Controllers
 
                 guide.ID = id;
 
-                guide.personData.ID = id;
+                guide.PersonData.ID = id;
 
 
                 //Add and save the changes on the data base.
-                this._personContext.Add( guide.personData );
+                this._personContext.Add( guide.PersonData );
 
                 this._personContext.SaveChanges();
 

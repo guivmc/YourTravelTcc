@@ -18,7 +18,7 @@ namespace YourTravelTcc.Models
         public bool Available { get; set; }
 
         [NotMapped]
-        public Person personData { get; set; } 
+        public Person PersonData { get; set; } 
 
     }
 }
