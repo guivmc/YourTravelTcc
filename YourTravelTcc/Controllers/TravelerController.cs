@@ -14,13 +14,15 @@ namespace YourTravelTcc.Controllers
     public class TravelerController : Controller
     {
         private readonly GuideContext _guideContext;
+        private readonly MessageContext _messageContext;
 
         /// <summary>
         /// Default
         /// </summary>
-        public TravelerController(GuideContext guideContext )
+        public TravelerController( GuideContext guideContext, MessageContext messageContext )
         {
             this._guideContext = guideContext;
+            this._messageContext = messageContext;
         }
 
         /// <summary>
@@ -56,7 +58,7 @@ namespace YourTravelTcc.Controllers
                                   PersonData = person
                               } ).AsEnumerable();
 
-            return View("GuidesFound", tableJoin );
+            return View( "GuidesFound", tableJoin );
         }
     }
 }
