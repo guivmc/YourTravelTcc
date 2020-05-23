@@ -1,0 +1,17 @@
+﻿@model YourTravelTcc.Models.Message
+
+@{
+    ViewData["Title"] = "Send a Message";
+    Layout = "~/Views/Shared/_HomePageLayout.cshtml";
+}
+
+<h1>SendMessage</h1>
+
+@* No action="SendMessage/Guide" necessary since we are sending data to the same url but in a post. *@
+<form method="post">
+    <input type="hidden" name="TravelerID" value="@(this.Model.TravelerID)" ) />
+    <textarea type="text" name="Text" rows="20" cols="100"></textarea>
+    <br />
+    <input type="submit" value="Send" />
+</form>
+
