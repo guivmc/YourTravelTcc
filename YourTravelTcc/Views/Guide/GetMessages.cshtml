@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<YourTravelTcc.Models.Message>
 @{
-    ViewData["Title"] = "Guide HomePage";
+    ViewData["Title"] = "Guide MessagesPage";
     Layout = "~/Views/Shared/_HomePageLayout.cshtml";
 }
 
@@ -9,6 +9,9 @@
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor( model => model.Traveler.FullName )
+            </th>
             <th>
                 @Html.DisplayNameFor( model => model.Text )
             </th>
@@ -20,10 +23,16 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor( modelItem => item.Text )
+                    @Html.DisplayFor( modelItem => item.Traveler.FullName )
                 </td>
                 <td>
                     @Html.DisplayFor( modelItem => item.Text )
+                </td>
+                <td>
+                    <form action="SendMessage/Guide" method="get">
+                        <input type="hidden" name="travelerID" value="@(item.TravelerID)"/>
+                        <input type="submit" value="Reply" />
+                    </form>
                 </td>
             </tr>
         }

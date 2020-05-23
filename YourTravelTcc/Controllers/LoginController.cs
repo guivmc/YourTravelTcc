@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.SQLite;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Internal;
-using Microsoft.AspNetCore.Session;
 using Microsoft.Extensions.Logging;
 using YourTravelTcc.Models;
 using YourTravelTcc.Models.Context;
@@ -53,32 +47,42 @@ namespace YourTravelTcc.Controllers
             {
                 try
                 {
+                    //Get Person data based on email and password.
                     var login = this._personContext.Person.Single( p => p.Email.Equals( person.Email ) && p.Password.Equals( person.Password ) );
 
+                    //Get the guide based on the ForeignKey.
                     var guide = this._guideContext.Guide.SingleOrDefault( g => g.ID.Equals( login.ID ) );
 
                     if( guide != null )
                     {
-                        HttpContext.Session.SetObject( "Guide-" + guide.ID, guide );
+                        //Serialize guide in session.
+                        HttpContext.Session.SetObject( "Guide-" + HttpContext.Session.Id, guide );
+                        //PersonData needs to be serialized separately due to the [NotMapped] property in Guide Model. 
+                        //This was made this way to avoid the DBContext inheritance serialization issue. (Person should've been an Abstract class.)
+                        HttpContext.Session.SetObject( "PersonGuide-" + HttpContext.Session.Id, login );
                         return RedirectToAction( "Index", "Guide" );
                     }
 
+                    //Get the Traveler based on the ForeignKey.
                     var traveler = this._travelerContext.Traveler.SingleOrDefault( t => t.ID.Equals( login.ID ) );
 
                     if( traveler != null )
                     {
-                        HttpContext.Session.SetObject( "Traveler-" + traveler.ID, traveler );
+                        //Serialize traveler in session.
+                        HttpContext.Session.SetObject( "Traveler-" + HttpContext.Session.Id, traveler );
+                        //PersonData needs to be serialized separately due to the [NotMapped] property in Traveler Model.
+                        //This was made this way to avoid the DBContext inheritance serialization issue. (Person should've been an Abstract class.)
+                        HttpContext.Session.SetObject( "PersonTraveler-" + HttpContext.Session.Id, login );
                         return RedirectToAction( "Index", "Traveler" );
                     }
 
-
                     return BadRequest();
-            }
+                }
                 catch( InvalidOperationException )
-            {
-                return BadRequest();
+                {
+                    return BadRequest();
+                }
             }
-        }
 
             return BadRequest();
         }
@@ -102,7 +106,7 @@ namespace YourTravelTcc.Controllers
         [HttpGet]
         public IActionResult SignUpAsTraveler()
         {
-             return View();
+            return View();
         }
 
         /// <summary>
@@ -116,12 +120,11 @@ namespace YourTravelTcc.Controllers
             if( ModelState.IsValid )
             {
                 //Generate a new radom id.
-                int id = new Random().Next(1, int.MaxValue);
+                int id = new Random().Next( 1, int.MaxValue );
 
                 traveler.ID = id;
 
                 traveler.personData.ID = id;
-
 
                 //Add and save the changes on the data base.
                 this._personContext.Add( traveler.personData );
@@ -132,8 +135,7 @@ namespace YourTravelTcc.Controllers
 
                 this._travelerContext.SaveChanges();
 
-
-                HttpContext.Session.SetObject( "Traveler-" + traveler.ID, traveler );
+                HttpContext.Session.SetObject( "Traveler-" + HttpContext.Session.Id, traveler );
 
                 return RedirectToAction( "Index", "Traveler" );
             }
@@ -170,7 +172,6 @@ namespace YourTravelTcc.Controllers
 
                 guide.PersonData.ID = id;
 
-
                 //Add and save the changes on the data base.
                 this._personContext.Add( guide.PersonData );
 
@@ -180,15 +181,14 @@ namespace YourTravelTcc.Controllers
 
                 this._guideContext.SaveChanges();
 
-
-                HttpContext.Session.SetObject( "Guide-" + guide.ID, guide );
+                HttpContext.Session.SetObject( "Guide-" + HttpContext.Session.Id, guide );
 
                 return RedirectToAction( "Index", "Guide" );
             }
 
             return BadRequest();
         }
-    
+
         #endregion
         #endregion
 
