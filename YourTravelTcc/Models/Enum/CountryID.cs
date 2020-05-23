@@ -7,7 +7,7 @@ namespace YourTravelTcc.Models.Enum
 {
     public enum CountryID
     {
-        Agertina = 1,
+        Argentina = 1,
         Brazil = 2,
         USA = 3,
 

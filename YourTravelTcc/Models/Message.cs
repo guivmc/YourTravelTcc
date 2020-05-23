@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace YourTravelTcc.Models
 {
@@ -11,7 +12,13 @@ namespace YourTravelTcc.Models
         [Key]
         public int ID { get; set; }
         public String Text { get; set; }
-        public int SenderID { get; set; }
-        public int ReciverID { get; set; }
+        [ForeignKey( "ID" )]
+        public int TravelerID { get; set; }
+        [ForeignKey( "ID" )]
+        public int GuideID { get; set; }
+        [NotMapped]
+        public Person Guide { get; set; } //To represente personal information of the Guide
+        [NotMapped]
+        public Person Traveler { get; set; } //To represente personal information of the Traveler
     }
 }

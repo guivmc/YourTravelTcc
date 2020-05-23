@@ -2,22 +2,16 @@
 
 @{
     ViewData["Title"] = "GuidesFound";
-    Layout = "~/Views/Shared/_TravelerLayout.cshtml";
+    Layout = "~/Views/Shared/_HomePageLayout.cshtml";
 }
 
 <h1>GuidesFound</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CompanyID)
+                @Html.DisplayNameFor(model => model.PersonData.FullName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Rating)
@@ -32,16 +26,19 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.ID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CompanyID)
+                @Html.DisplayFor(modelItem => item.PersonData.FullName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Rating)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Available)
+            </td>
+            <td>
+                <form action="SendMessage/Traveler" method="get">
+                    <input type="hidden" name="guideID" value="@(item.ID)"/>
+                    <input type="submit" value="Send a message"/>
+                </form>
             </td>
         </tr>
 }

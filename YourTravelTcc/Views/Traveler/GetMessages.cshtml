@@ -1,0 +1,41 @@
+﻿@model IEnumerable<YourTravelTcc.Models.Message>
+@{
+    ViewData["Title"] = "Traveler Messages";
+    Layout = "~/Views/Shared/_HomePageLayout.cshtml";
+}
+
+<h1>Messages:</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor( model => model.Guide.FullName )
+            </th>
+            <th>
+                @Html.DisplayNameFor( model => model.Text )
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach( var item in Model )
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor( modelItem => item.Guide.FullName )
+                </td>
+                <td>
+                    @Html.DisplayFor( modelItem => item.Text )
+                </td>
+                <td>
+                    <form action="SendMessage/Traveler" method="get">
+                        <input type="hidden" name="guideID" value="@(item.GuideID)" />
+                        <input type="submit" value="Reply" />
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
